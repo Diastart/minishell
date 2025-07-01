@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:42:40 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/01 12:27:40 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/01 13:19:03 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*dquote(t_mini *mini, char *s)
 	char	*env;
 
 	res = NULL;
+	if (s == NULL)
+		return (NULL);
 	s1 = s;
 	s2 = s1;
 	while (*s2 != '\0')
