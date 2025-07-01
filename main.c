@@ -3,105 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
+/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:54:00 by Dias              #+#    #+#             */
-/*   Updated: 2025/06/24 15:04:22 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/01 12:49:10 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./mini.h"
 
-char	*get_left_env(char *env_line)
+// this is just helper to print token_type since token_type
+// is not string but just numerates
+static char *token_type_to_string(t_token_type type)
 {
-	char	*head;
-	char	*left_side;
-	int		len;
-
-	len = 0;
-	while (env_line[len] != '=')
-		len++;
-	left_side = malloc(sizeof(char) * (len + 2));
-	head = left_side;
-	while (*env_line != '=')
-		*left_side++ = *env_line++;
-	*left_side++ = '=';
-	*left_side = '\0';
-	return (head);
-}
-
-char	*get_right_env(char *env_line)
-{
-	char	*head;
-	char	*right_side;
-	int		len;
-	int		delim;
-
-	len = 0;
-	while (env_line[len] != '\0')
-	{
-		if (env_line[len] == '=')
-			delim = len;
-		len++;
-	}
-	right_side = malloc(sizeof(char) * (len - delim));
-	head = right_side;
-	env_line += delim + 1;
-	while (*env_line != '\0')
-		*right_side++ = *env_line++;
-	*right_side = '\0';
-	return (head);
-}
-
-t_env	*create_env(char *env_line)
-{
-	t_env	*env;
-
-	env = malloc(sizeof(t_env));
-	env->key = get_left_env(env_line);
-	env->val = get_right_env(env_line);
-	env->next = NULL;
-	return (env);
-}
-
-void	connect_env(t_mini *mini, t_env *env)
-{
-	t_env	*temp;
-
-	if (mini->env == NULL)
-	{
-		mini->env = env;
-		return ;
-	}
-	temp = mini->env;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = env;
-	return ;
-}
-
-void	copy_envps(t_mini *mini, char **envp)
-{
-	while(*envp)
-		connect_env(mini,create_env(*envp++));
+	if (type == TOKEN_WORD) return "TOKEN_WORD";
+	if (type == TOKEN_PIPE) return "TOKEN_PIPE";
+	if (type == TOKEN_REDIR_APPEND) return "TOKEN_REDIR_APPEND";
+	if (type == TOKEN_REDIR_HEREDOC) return "TOKEN_REDIR_HEREDOC";
+	if (type == TOKEN_REDIR_IN) return "TOKEN_REDIR_IN";
+	if (type == TOKEN_REDIR_OUT) return "TOKEN_REDIR_OUT";
+	if (type == TOKEN_QUOTE) return "TOKEN_QUOTE";
+	if (type == TOKEN_ERROR) return "TOKEN_ERROR";
+	return "UNKNOWN";
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	*mini;
+	char	*line;
+	t_env	*temp_env;
+	t_token	*temp_token;
 
 	(void)ac;
 	(void)av;
 	mini = malloc(sizeof(t_mini));
+	mini->token = NULL;
+	
 	copy_envps(mini, envp);
-	
-	// NOW we have (key,value) -> (key,value)->...->NULL
-	// linked list of environment variables
-	while (mini->env !=  NULL)
+	printf("------------------ENVIRONMENT---VARIABLES------------------\n");
+	// debug printing of environment variables
+	temp_env = mini->env;
+	while (temp_env != NULL)
 	{
-		printf("%s%s\n", mini->env->key, mini->env->val);
-		mini->env = mini->env->next;
+		printf ("%s=%s\n", temp_env->key, temp_env->val);
+		temp_env = temp_env->next;
 	}
-	
-
+	//
+	printf("-----------------------------------------------------------\n");
+	while (42)
+	{
+		line = readline("$minishell> ");
+		mini->token = NULL;
+		printf("----------------TOKENS---BEFORE---EXPANSION----------------\n");
+		make_tokens(mini, line);
+		temp_token = mini->token;
+		while (temp_token != NULL)
+		{
+			printf("%s:%s\n", temp_token->val, token_type_to_string(temp_token->type));
+			temp_token = temp_token->next;
+		}
+		temp_token = mini->token;
+		printf("-----------------------------------------------------------\n");
+		quote_exp(mini);
+		printf("----------------TOKENS---AFTER---EXPANSION-----------------\n");
+		temp_token = mini->token;
+		while (temp_token != NULL)
+		{
+			printf("%s:%s\n", temp_token->val, token_type_to_string(temp_token->type));
+			temp_token = temp_token->next;
+		}
+		temp_token = mini->token;
+		printf("-----------------------------------------------------------\n");
+	}
 }
