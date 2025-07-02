@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/01 12:31:23 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/02 11:29:02 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 #endif
+
+extern int	g_exstat;
 
 typedef enum	e_token_type
 {

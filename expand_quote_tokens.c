@@ -6,11 +6,40 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:42:40 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/01 13:19:03 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/02 12:00:00 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./mini.h"
+
+int	g_exstat;
+
+char	*inttostr(int status)
+{
+	char	*res;
+	char	*res_h;
+	int		len;
+	int		copy;
+
+	len = 1;
+	copy = status;
+	while (copy >= 10)
+	{
+		len++;
+		copy = copy / 10;
+	}
+	res = malloc(sizeof(char) * (len + 1));
+	res_h = res;
+	res += len;
+	*res = '\0';
+	res--;
+	while (res >= res_h)
+	{
+		*res-- = (status % 10) + '0';
+		status /= 10;
+	}
+	return (res_h);
+}
 
 char	*subdup(char *s1, char *s2)
 {
@@ -97,6 +126,13 @@ char	*dquote(t_mini *mini, char *s)
 		{
 			res = merge(res, subdup(s1, s2));
 			s2++;
+			if (*s2 == '?')
+			{
+				res = merge(res, inttostr(g_exstat));
+				s2++;
+				s1 = s2;
+				continue ;
+			}
 			s1 = s2;
 			while (*s2 != '\0' && is_alphanum(*s2))
 				s2++;
@@ -147,6 +183,15 @@ void	update(t_mini *mini, t_token *current)
 	current->val = res;
 }
 
+void	update_extra(t_mini *mini, t_token *current)
+{
+	char	*res;
+
+	res = dquote(mini, current->val);
+	free(current->val);
+	current->val = res;
+}
+
 void	quote_exp(t_mini *mini)
 {
 	t_token	*current;
@@ -159,6 +204,8 @@ void	quote_exp(t_mini *mini)
 			update(mini, current);
 			current->type = TOKEN_WORD;
 		}
+		else if (current->type == TOKEN_WORD)
+			update_extra(mini, current);
 		current = current->next;
 	}
 }

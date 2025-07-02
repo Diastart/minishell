@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:54:00 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/01 12:49:10 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/02 10:56:24 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@ int	main(int ac, char **av, char **envp)
 {
 	t_mini	*mini;
 	char	*line;
-	t_env	*temp_env;
+	//t_env	*temp_env;
 	t_token	*temp_token;
 
 	(void)ac;
 	(void)av;
 	mini = malloc(sizeof(t_mini));
-	mini->token = NULL;
-	
 	copy_envps(mini, envp);
+	/*
 	printf("------------------ENVIRONMENT---VARIABLES------------------\n");
 	// debug printing of environment variables
 	temp_env = mini->env;
@@ -50,20 +49,22 @@ int	main(int ac, char **av, char **envp)
 	}
 	//
 	printf("-----------------------------------------------------------\n");
+	*/
 	while (42)
 	{
 		line = readline("$minishell> ");
 		mini->token = NULL;
-		printf("----------------TOKENS---BEFORE---EXPANSION----------------\n");
 		make_tokens(mini, line);
+		/*
+		printf("----------------TOKENS---BEFORE---EXPANSION----------------\n");
 		temp_token = mini->token;
 		while (temp_token != NULL)
 		{
 			printf("%s:%s\n", temp_token->val, token_type_to_string(temp_token->type));
 			temp_token = temp_token->next;
 		}
-		temp_token = mini->token;
 		printf("-----------------------------------------------------------\n");
+		*/
 		quote_exp(mini);
 		printf("----------------TOKENS---AFTER---EXPANSION-----------------\n");
 		temp_token = mini->token;
@@ -72,7 +73,6 @@ int	main(int ac, char **av, char **envp)
 			printf("%s:%s\n", temp_token->val, token_type_to_string(temp_token->type));
 			temp_token = temp_token->next;
 		}
-		temp_token = mini->token;
 		printf("-----------------------------------------------------------\n");
 	}
 }
