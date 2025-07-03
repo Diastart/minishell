@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   none_error_tokens.c                                :+:      :+:    :+:   */
+/*   miniUtilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:43:29 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/02 17:06:00 by Dias             ###   ########.fr       */
+/*   Created: 2025/07/03 12:34:15 by Dias              #+#    #+#             */
+/*   Updated: 2025/07/03 16:03:44 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./mini.h"
 
-int	any_error_tokens(t_mini *mini)
+t_mini	*create_mini(void)
 {
-	t_token	*local_token;
+	t_mini	*new_mini;
 
-	local_token = mini->token;
-	while (local_token != NULL)
-	{
-		if (local_token->type == TOKEN_ERROR)
-			return (1);
-		local_token = local_token->next;
-	}
-	return (0);
+	new_mini = malloc(sizeof(t_mini));
+	new_mini->env = NULL;
+	new_mini->token = NULL;
+	new_mini->cmd = NULL;
+	return (new_mini);
+}
+
+void	reset_mini(t_mini *mini)
+{
+	mini->token = NULL;
+	mini->cmd = NULL;
 }

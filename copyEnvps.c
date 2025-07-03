@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_envps.c                                       :+:      :+:    :+:   */
+/*   copyEnvps.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:53:29 by dias              #+#    #+#             */
-/*   Updated: 2025/07/01 12:13:04 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/03 16:05:41 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_left_env(char *env_line)
 	delim = 0;
 	while (env_line[delim] != '=')
 		delim++;
-	return (subdup(env_line, env_line + delim));
+	return (ft_dupsubstr(env_line, env_line + delim));
 }
 
 char	*get_right_env(char *env_line)
@@ -29,7 +29,7 @@ char	*get_right_env(char *env_line)
 	delim = 0;
 	while (env_line[delim] != '=')
 		delim++;
-	return (subdup(env_line + delim + 1, env_line + slen(env_line)));
+	return (ft_dupsubstr(env_line + delim + 1, env_line + ft_strlen(env_line)));
 }
 
 t_env	*create_env(char *env_line)

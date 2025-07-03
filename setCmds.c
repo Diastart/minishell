@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:23:21 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 01:08:08 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/03 12:19:27 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,64 @@ void	wordcase(t_token **rmttoken, t_cmd *cmd)
 	*rmttoken = (*rmttoken)->next;
 }
 
+t_redir	*create_redir(void)
+{
+	t_redir	*new_redir;
+
+	new_redir = malloc(sizeof(t_redir));
+	new_redir->filename = NULL;
+	new_redir->type = REDIR_UNSET;
+	new_redir->next = NULL;
+	return (new_redir);
+}
+
+t_redir	*setget_tailredir(t_cmd *cmd)
+{
+	t_redir	*lclredir;
+	t_redir	*tailredir;
+
+	tailredir = create_redir();
+	lclredir = cmd->redir;
+	if (lclredir == NULL)
+		cmd->redir = tailredir;
+	else
+	{
+		while (lclredir->next != NULL)
+			lclredir = lclredir->next;
+		lclredir->next = tailredir;
+	}
+	return (tailredir);
+}
+
+t_redir_type	get_redir_type(t_token_type token_type)
+{
+	if (token_type == TOKEN_REDIR_IN)
+		return (REDIR_IN);
+	else if (token_type == TOKEN_REDIR_OUT)
+		return (REDIR_OUT);
+	else if (token_type == TOKEN_REDIR_APPEND)
+		return (REDIR_APPEND);
+	else if (token_type == TOKEN_REDIR_HEREDOC)
+		return (REDIR_HEREDOC);
+	else
+		return (REDIR_UNSET);
+}
+
 void	redircase(t_token **rmttoken, t_cmd *cmd)
 {
+	t_redir	*lclredir;
 
+	lclredir = setget_tailredir(cmd);
+	lclredir->type = get_redir_type((*rmttoken)->type);
+	(*rmttoken) = (*rmttoken)->next;
+	if (*rmttoken != NULL)
+	{
+		if ((*rmttoken)->type == TOKEN_WORD)
+		{
+			lclredir->filename = (*rmttoken)->val;
+			(*rmttoken) = (*rmttoken)->next;
+		}
+	}
 }
 
 void	split_tokens_to_cmds(t_token **rmttoken, t_cmd *cmd)
@@ -112,8 +167,6 @@ void	split_tokens_to_cmds(t_token **rmttoken, t_cmd *cmd)
 		}
 		else
 			redircase(rmttoken, cmd);
-		// You stopped here redircase
-		// Do not fotget rewrite all the code from beginning
 	}
 }
 
