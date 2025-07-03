@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:36:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:36:06 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/03 23:07:55 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ void	print_redirs(t_cmd *rmtcmd)
 	t_redir	*lclredir;
 
 	lclredir = rmtcmd->redir;
-	printf("Its redirections: ");
 	while (lclredir != NULL)
 	{
-		printf("(%s:%s)->", lclredir->filename, redir_type_to_string(lclredir->type));
+		printf("(%s:%s) ", lclredir->filename, redir_type_to_string(lclredir->type));
 		lclredir = lclredir->next;
 	}
-	printf("(null)\n");
 }
 
 void	print_commands(t_mini *mini)
@@ -100,15 +98,15 @@ void	print_commands(t_mini *mini)
 	printf("----------------------------------\n");
 	while (lclcmd != NULL)
 	{
-		printf("Command%d\n", i);
+		printf("Command%d arguments: ", i);
 		lclargs = lclcmd->args;
-		printf("args : ");
 		while (lclargs != NULL && *lclargs != NULL)
 		{
 			printf("%s, ", (*lclargs));
 			lclargs++;
 		}
 		printf("\n");
+		printf("Command%d redirections: ", i);
 		print_redirs(lclcmd);
 		lclcmd = lclcmd->next;
 		i++;

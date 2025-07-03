@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:13:13 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/03 23:03:15 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,6 @@ void	reset_mini(t_mini *mini);
 void	print_tokens(t_mini *mini);
 void	print_commands(t_mini *mini);
 void	print_envps(t_mini *mini);
+int		manifest_tokens(t_mini *mini);
+int		manifest_redirs(t_mini *mini);
 

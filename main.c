@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:32:41 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:23:33 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/03 23:12:18 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@ int	main(int ac, char **av, char **envp)
 		reset_mini(mini);
 		line = readline("$minishell> ");
 		tokenize(mini, line);
-		// manifest_tokens();
+		if(manifest_tokens(mini))
+			continue ;
 		printf("BEFORE EXPANSION\n");
 		print_tokens(mini);
 		printf("AFTER EXPANSION\n");
 		expansion(mini);
 		print_tokens(mini);
-		// manifest_redirs();
 		set_cmds(mini);
+		if (manifest_redirs(mini))
+			continue ;
 		print_commands(mini);
 	}
 	
