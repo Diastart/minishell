@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:54:00 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/02 10:56:24 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/02 17:23:14 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int	main(int ac, char **av, char **envp)
 		}
 		printf("-----------------------------------------------------------\n");
 		*/
+		if(any_error_tokens(mini))
+		{
+			printf("error\n");
+			continue ;
+		}
 		quote_exp(mini);
 		printf("----------------TOKENS---AFTER---EXPANSION-----------------\n");
 		temp_token = mini->token;
@@ -74,5 +79,12 @@ int	main(int ac, char **av, char **envp)
 			temp_token = temp_token->next;
 		}
 		printf("-----------------------------------------------------------\n");
+		set_cmds(mini);
+		if (any_error_tokens(mini))
+		{
+			printf("error\n");
+			continue ;
+		}
+		// printing command debugger
 	}
 }
