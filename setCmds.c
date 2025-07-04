@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:23:21 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 12:19:27 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 15:31:56 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,15 @@ void	redircase(t_token **rmttoken, t_cmd *cmd)
 	}
 }
 
+void	pipecase(t_token **rmttoken, t_cmd *cmd)
+{
+	t_redir	*lclredir;
+
+	lclredir = setget_tailredir(cmd);
+	lclredir->type = REDIR_PIPE;
+	(*rmttoken) = (*rmttoken)->next;
+}
+
 void	split_tokens_to_cmds(t_token **rmttoken, t_cmd *cmd)
 {
 	while ((*rmttoken) != NULL)
@@ -162,7 +171,7 @@ void	split_tokens_to_cmds(t_token **rmttoken, t_cmd *cmd)
 			wordcase(rmttoken, cmd);
 		else if ((*rmttoken)->type == TOKEN_PIPE)
 		{
-			*rmttoken = (*rmttoken)->next;
+			pipecase(rmttoken, cmd);
 			return ;
 		}
 		else

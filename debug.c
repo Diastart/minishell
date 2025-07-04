@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:36:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 23:07:55 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 15:37:41 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*redir_type_to_string(t_redir_type redir_type)
 		return ("REDIR_APPEND");
 	else if (redir_type == REDIR_HEREDOC)
 		return ("REDIR_HEREDOC");
+	else if (redir_type == REDIR_PIPE)
+		return ("REDIR_PIPE");
 	else
 		return ("REDIR_UNSET");
 }

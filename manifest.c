@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 22:52:52 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 23:02:37 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 15:34:40 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	manifest_redirs(t_mini *mini)
 		lclredir = lclcmd->redir;
 		while (lclredir != NULL)
 		{
-			if (lclredir->filename == NULL)
+			if (lclredir->type != REDIR_PIPE && lclredir->filename == NULL)
 			{
 				printf("Unset redirection was manifested...your prompt was not executed\n");
 				return (1);

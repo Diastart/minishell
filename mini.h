@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/04 13:53:13 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 15:32:42 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum	e_redir_type
 	REDIR_OUT,
 	REDIR_APPEND,
 	REDIR_HEREDOC,
+	REDIR_PIPE,
 }				t_redir_type;
 
 typedef struct	s_redir
@@ -123,6 +124,7 @@ t_redir	*create_redir(void);
 t_redir	*setget_tailredir(t_cmd *cmd);
 t_redir_type	get_redir_type(t_token_type token_type);
 void	redircase(t_token **rmttoken, t_cmd *cmd);
+void	pipecase(t_token **rmttoken, t_cmd *cmd);
 void	split_tokens_to_cmds(t_token **rmttoken, t_cmd *cmd);
 void	set_cmds(t_mini *mini);
 
