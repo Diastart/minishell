@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:05:24 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:44:10 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 14:17:22 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*get_token_val(char **line)
 		{
 			quote = *(*line)++;
 			skip_untill_quote(line, quote);
+			if (**line == '\0')
+				break ;
 		}
 		(*line)++;
 	}
