@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 14:12:09 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:45:54 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/04 15:17:39 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char	*rmv_quotes_and_expand(t_env *env, char *rmtval)
 		if (*(rmtval) == '\'' || *(rmtval) == '\"')
 		{
 			quote = *(rmtval);
-			result = ft_strjoin(result, ft_dupsubstr(start, rmtval));
+			substr = search_and_expand(env, ft_dupsubstr(start, rmtval));
+			result = ft_strjoin(result, substr);
 			start = ++(rmtval);
 			skip_untill_quote(&(rmtval), quote);
 			substr = ft_dupsubstr(start, rmtval);
@@ -53,7 +54,8 @@ char	*rmv_quotes_and_expand(t_env *env, char *rmtval)
 		else
 			(rmtval)++;
 	}
-	result = ft_strjoin(result, ft_dupsubstr(start, rmtval));
+	substr = search_and_expand(env, ft_dupsubstr(start, rmtval));
+	result = ft_strjoin(result, substr);
 	return (result);
 }
 
