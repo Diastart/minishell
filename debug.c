@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:36:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/04 15:37:41 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 18:33:06 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	print_redirs(t_cmd *rmtcmd)
 	}
 }
 
-void	print_commands(t_mini *mini)
+void	print_cmds(t_mini *mini)
 {
 	t_cmd	*lclcmd;
 	char	**lclargs;

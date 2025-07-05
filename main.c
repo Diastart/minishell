@@ -6,16 +6,18 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:32:41 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 23:12:18 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 18:32:50 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./mini.h"
 
+int	g_status;
+
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	*mini;
-	char	*line;
+	int		cmderror;
 
 	(void)ac;
 	(void)av;
@@ -26,19 +28,9 @@ int	main(int ac, char **av, char **envp)
 	while (42)
 	{
 		reset_mini(mini);
-		line = readline("$minishell> ");
-		tokenize(mini, line);
-		if(manifest_tokens(mini))
-			continue ;
-		printf("BEFORE EXPANSION\n");
-		print_tokens(mini);
-		printf("AFTER EXPANSION\n");
-		expansion(mini);
-		print_tokens(mini);
-		set_cmds(mini);
-		if (manifest_redirs(mini))
-			continue ;
-		print_commands(mini);
+		printf("$minishell");
+		cmderror = get_cmds((mini));
+		if (!cmderror)
+			print_cmds(mini);
 	}
-	
 }

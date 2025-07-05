@@ -6,11 +6,26 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 22:52:52 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/04 15:34:40 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 18:38:34 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./mini.h"
+
+int	g_status;
+
+int	manifest(t_mini *mini, int code)
+{
+	if (code == ERRTOKENS)
+		return (manifest_tokens(mini));
+	else if (code == PIPEFIRST)
+		return (manifest_pipefirst(mini));
+	else if (code == REDIRS)
+		return (manifest_redirs(mini));
+	else if (code == PIPELAST)
+		return (manifest_pipelast(mini));
+	return (0);
+}
 
 int	manifest_tokens(t_mini *mini)
 {
@@ -48,6 +63,34 @@ int	manifest_redirs(t_mini *mini)
 			lclredir = lclredir->next;
 		}
 		lclcmd = lclcmd->next;
+	}
+	return (0);
+}
+
+int	manifest_pipefirst(t_mini *mini)
+{
+	t_token	*lcltoken;
+
+	lcltoken = mini->token;
+	if (lcltoken != NULL && lcltoken->type == TOKEN_PIPE)
+	{
+		printf("Unexpected pipe was manifested...your prompt was not executed\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	manifest_pipelast(t_mini *mini)
+{
+	t_token	*lcltoken;
+
+	lcltoken = mini->token;
+	if (lcltoken != NULL)
+	{
+		while (lcltoken->next != NULL)
+			lcltoken = lcltoken->next;
+		if (lcltoken->type == TOKEN_PIPE)
+			return (1);
 	}
 	return (0);
 }

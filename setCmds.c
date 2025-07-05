@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:23:21 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/04 15:31:56 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 17:30:53 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,7 @@ void	set_cmds(t_mini *mini)
 	{
 		lclcmd = setget_tailcmd(mini);
 		split_tokens_to_cmds(&lcltoken, lclcmd);
+		if (lcltoken != NULL && lcltoken->type == TOKEN_PIPE)
+			lcltoken = lcltoken->next;
 	}
 }
