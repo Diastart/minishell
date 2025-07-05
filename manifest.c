@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 22:52:52 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 18:38:34 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 19:09:25 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	manifest(t_mini *mini, int code)
 {
 	if (code == ERRTOKENS)
 		return (manifest_tokens(mini));
-	else if (code == PIPEFIRST)
-		return (manifest_pipefirst(mini));
 	else if (code == REDIRS)
 		return (manifest_redirs(mini));
 	else if (code == PIPELAST)
@@ -67,19 +65,6 @@ int	manifest_redirs(t_mini *mini)
 	return (0);
 }
 
-int	manifest_pipefirst(t_mini *mini)
-{
-	t_token	*lcltoken;
-
-	lcltoken = mini->token;
-	if (lcltoken != NULL && lcltoken->type == TOKEN_PIPE)
-	{
-		printf("Unexpected pipe was manifested...your prompt was not executed\n");
-		return (1);
-	}
-	return (0);
-}
-
 int	manifest_pipelast(t_mini *mini)
 {
 	t_token	*lcltoken;
@@ -91,6 +76,16 @@ int	manifest_pipelast(t_mini *mini)
 			lcltoken = lcltoken->next;
 		if (lcltoken->type == TOKEN_PIPE)
 			return (1);
+	}
+	return (0);
+}
+
+int	manifest_pipefirst(char c)
+{
+	if (c != '\0' && c == '|')
+	{
+		printf("Unexpected first pipe was manifested...your prompt was not executed\n");
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 18:35:52 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 19:07:17 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # define ERRTOKENS 0
-# define PIPEFIRST 1
-# define REDIRS 2
-# define PIPELAST 3
+# define REDIRS 1
+# define PIPELAST 2
 #endif
 
 extern int	g_status;
@@ -154,10 +153,9 @@ void	print_cmds(t_mini *mini);
 void	print_envps(t_mini *mini);
 int		manifest_tokens(t_mini *mini);
 int		manifest_redirs(t_mini *mini);
-int		manifest_pipefirst(t_mini *mini);
 int		manifest_pipelast(t_mini *mini);
 int		manifest(t_mini *mini, int code);
+int		manifest_pipefirst(char c);
 
 //
 int	get_cmds(t_mini *mini);
-
