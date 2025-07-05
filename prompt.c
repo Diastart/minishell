@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:46:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 19:07:52 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 19:14:21 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_cmds(t_mini *mini)
 
 	error = 0;
 	line = readline("> ");
-	if (manifest_pipefirst(*line))
+	if (manifest_pipefirst(line))
 		return (1);
 	tokenize(mini, line);
 	if (manifest(mini, PIPELAST))

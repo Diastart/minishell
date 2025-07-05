@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 19:07:17 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 19:14:44 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int		manifest_tokens(t_mini *mini);
 int		manifest_redirs(t_mini *mini);
 int		manifest_pipelast(t_mini *mini);
 int		manifest(t_mini *mini, int code);
-int		manifest_pipefirst(char c);
+int		manifest_pipefirst(char *line);
 
 //
 int	get_cmds(t_mini *mini);

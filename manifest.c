@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 22:52:52 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 19:09:25 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/05 19:15:30 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ int	manifest_pipelast(t_mini *mini)
 	return (0);
 }
 
-int	manifest_pipefirst(char c)
+int	manifest_pipefirst(char *line)
 {
-	if (c != '\0' && c == '|')
+	skip_whitespaces(&line);
+	if (*line != '\0' && *line == '|')
 	{
 		printf("Unexpected first pipe was manifested...your prompt was not executed\n");
 		return (1);
