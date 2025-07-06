@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:46:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 19:14:21 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/06 13:58:36 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ int	get_cmds(t_mini *mini)
 	if (manifest_pipefirst(line))
 		return (1);
 	tokenize(mini, line);
-	if (manifest(mini, PIPELAST))
+	if (manifest_consecpipes(mini))
+		return (1);
+	if (manifest_pipelast(mini))
 	{
 		error = get_cmds(mini);
 		return (error);
 	}
-	//print_tokens(mini);
-	if (manifest(mini, ERRTOKENS))
+	if (manifest_errtokens(mini))
 		return (1);
 	expansion(mini);
-	//print_tokens(mini);
+	print_tokens(mini);
 	set_cmds(mini);
-	if (manifest(mini, REDIRS))
+	if (manifest_nullredirs(mini))
 		return (1);
 	return (error);
 }

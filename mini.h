@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:48:36 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 19:14:44 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/06 13:52:12 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# define ERRTOKENS 0
-# define REDIRS 1
-# define PIPELAST 2
 #endif
 
 extern int	g_status;
@@ -147,15 +144,18 @@ void	pack_token(t_token *token, char **line);
 void	tokenize(t_mini *mini, char *line);
 void	reset_mini(t_mini *mini);
 
-// Debug printers and manifest functions
+// Debug printers functions
 void	print_tokens(t_mini *mini);
 void	print_cmds(t_mini *mini);
 void	print_envps(t_mini *mini);
-int		manifest_tokens(t_mini *mini);
-int		manifest_redirs(t_mini *mini);
+
+//manifest functions
+int		manifest_errtokens(t_mini *mini);
+int		manifest_nullredirs(t_mini *mini);
 int		manifest_pipelast(t_mini *mini);
-int		manifest(t_mini *mini, int code);
+int		manifest_consecpipes(t_mini *mini);
 int		manifest_pipefirst(char *line);
+
 
 //
 int	get_cmds(t_mini *mini);
