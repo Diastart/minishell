@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 22:52:52 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/06 14:04:34 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/06 14:19:00 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	manifest_errtokens(t_mini *mini)
 		if (lcltoken->type == TOKEN_ERROR)
 		{
 			printf("parse error near (quote)\n");
+			g_status = 402;
 			return (1);
 		}
 		lcltoken = lcltoken->next;
@@ -45,6 +46,7 @@ int	manifest_nullredirs(t_mini *mini)
 			if (lclredir->type != REDIR_PIPE && lclredir->filename == NULL)
 			{
 				printf("parse error near (redirection)\n");
+				g_status = 401;
 				return (1);
 			}
 			lclredir = lclredir->next;
@@ -80,6 +82,7 @@ int	manifest_consecpipes(t_mini *mini)
 		&& lcltoken->next->type == TOKEN_PIPE)
 		{
 			printf("parse error near (pipe)\n");
+			g_status = 400;
 			return (1);
 		}
 		lcltoken = lcltoken->next;
@@ -93,6 +96,7 @@ int	manifest_pipefirst(char *line)
 	if (*line != '\0' && *line == '|')
 	{
 		printf("parse error near (pipe)\n");
+		g_status = 400;
 		return (1);
 	}
 	return (0);
