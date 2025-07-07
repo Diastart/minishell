@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 15:25:07 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/07 17:26:16 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/07 18:09:37 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,6 @@ void	yahoo(t_mini *mini)
 		lclcmd = lclcmd->next;
 	}
 }
+// DO NOT FORGET TO HANDLE ENV_COMMANDS 
+// THEY NEED TO BE EXECUTED ONLY IF 1) # OF CMDS IS 1 AND 2) IS ENV_COMMAND
+// DO NOT FORGET TO MAKE LIST OF ENV STRUCTURES AS ARRAY 
