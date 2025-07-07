@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
+/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:32:41 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/06 14:19:04 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/07 17:28:21 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	main(int ac, char **av, char **envp)
 		printf("$minishell");
 		cmderror = get_cmds((mini));
 		if (!cmderror)
-		{
-			print_cmds(mini);
-			g_status = 0;
-		}
+			yahoo(mini);
+		//print_error();
 	}
 }
