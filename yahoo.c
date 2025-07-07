@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 15:25:07 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/07 18:09:37 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/07 18:38:31 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 int	g_status;
 
-void	reset_pipe(int *prev_pipe_stdin, t_cmd *lclcmd, int *next_pipe_stds)
+void	reset_pipe(int *prev_pipe_stdin, t_cmd *lclcmd, int *become_old_pipe_stds)
 {
-	close(next_pipe_stds[1]);
+	close(become_old_pipe_stds[1]);
 	if (*prev_pipe_stdin != TERMINAL)
 		close(*prev_pipe_stdin);
 	if (lclcmd->next != NULL)
-		*prev_pipe_stdin = next_pipe_stds[0]; // VERY IMORTANT
+		*prev_pipe_stdin = become_old_pipe_stds[0]; // VERY IMPORTANT
 	else
 		*prev_pipe_stdin = TERMINAL;
 }
@@ -114,6 +114,6 @@ void	yahoo(t_mini *mini)
 		lclcmd = lclcmd->next;
 	}
 }
-// DO NOT FORGET TO HANDLE ENV_COMMANDS 
+// DO NOT FORGET TO HANDLE ENV_COMMANDS
 // THEY NEED TO BE EXECUTED ONLY IF 1) # OF CMDS IS 1 AND 2) IS ENV_COMMAND
-// DO NOT FORGET TO MAKE LIST OF ENV STRUCTURES AS ARRAY 
+// DO NOT FORGET TO MAKE LIST OF ENV STRUCTURES AS ARRAY
