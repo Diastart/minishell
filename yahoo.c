@@ -6,7 +6,7 @@
 /*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 12:39:01 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/08 13:19:42 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/08 13:44:49 by Dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ void	yahoo(t_mini *mini)
 			}
 			//set_redirs(lclcmd);
 			//execute_cmd(lclcmd);
+			exit(1);
 		}
 		// PARENT
+		close(pipe[1]);
 		if (prev != -1)
 			close(prev);
-		close(pipe[1]);
 		if (lclcmd->next != NULL)
 			prev = pipe[0];
-		else
-			prev = -1;
+		wait(NULL);
 		lclcmd = lclcmd->next;
 	}
 }
