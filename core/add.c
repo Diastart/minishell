@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:01:37 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:39:25 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/10 17:54:22 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**add(char *str, char **listofstr)
 		new_listofstr[i] = listofstr[i];
 		i++;
 	}
+	free(listofstr);
 	new_listofstr[i] = ft_strdup(str);
 	return (new_listofstr);
 }

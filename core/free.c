@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 17:25:00 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 17:41:58 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/10 17:52:46 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,14 @@ void	free_flow(t_mini *mini, int env)
 		print_status();
 	if (!mini)
 		return ;
-	if (env == ENV)
-	{
-		free_env(mini->env);
-		mini->env = NULL;
-	}
 	free_tokens(mini->token);
 	mini->token = NULL;
 	free_cmds(mini->cmd);
 	mini->cmd = NULL;
+	if (env == ENV)
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		free(mini);
+	}
 }
