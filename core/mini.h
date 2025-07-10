@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:04:43 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 17:34:36 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/11 00:03:19 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define OK 0
 # define ENV 2
 # define NOENV 3
+# define READ_KEY 0
+# define WRITE_KEY 1
+# define TERMINAL -1
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -99,5 +102,6 @@ void	print_tokens(t_mini *mini);
 void	print_cmds(t_mini *mini);
 void	print_status(void);
 void	free_flow(t_mini *mini, int env);
+void	routing_flow(t_mini *mini);
 
 #endif
