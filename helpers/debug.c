@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
+/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:36:22 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/05 18:33:06 by Dias             ###   ########.fr       */
+/*   Updated: 2025/07/10 17:19:59 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./mini.h"
+#include "../core/mini.h"
 
-char	*token_type_to_string(t_token_type token_type)
+int	g_status;
+
+static char	*token_type_to_string(t_token_type token_type)
 {
 	if (token_type == TOKEN_WORD)
 		return ("TOKEN_WORD");
@@ -26,14 +28,10 @@ char	*token_type_to_string(t_token_type token_type)
 		return ("TOKEN_REDIR_APPEND");
 	if (token_type == TOKEN_REDIR_HEREDOC)
 		return ("TOKEN_REDIR_HEREDOC");
-	if (token_type == TOKEN_QUOTE)
-		return ("TOKEN_QUOTE");
-	if (token_type == TOKEN_ERROR)
-		return ("TOKEN_ERROR");
 	return ("TOKEN_UNSET");
 }
 
-char	*redir_type_to_string(t_redir_type redir_type)
+static char	*redir_type_to_string(t_redir_type redir_type)
 {
 	if (redir_type == REDIR_IN)
 		return ("REDIR_IN");
@@ -43,24 +41,8 @@ char	*redir_type_to_string(t_redir_type redir_type)
 		return ("REDIR_APPEND");
 	else if (redir_type == REDIR_HEREDOC)
 		return ("REDIR_HEREDOC");
-	else if (redir_type == REDIR_PIPE)
-		return ("REDIR_PIPE");
 	else
 		return ("REDIR_UNSET");
-}
-
-void	print_envps(t_mini *mini)
-{
-	t_env	*lclenv;
-
-	lclenv = mini->env;
-	printf("----------------------------------\n");
-	while (lclenv != NULL)
-	{
-		printf("%s=%s\n", lclenv->key, lclenv->val);
-		lclenv = lclenv->next;
-	}
-	printf("----------------------------------\n");
 }
 
 void	print_tokens(t_mini *mini)
@@ -71,20 +53,22 @@ void	print_tokens(t_mini *mini)
 	printf("----------------------------------\n");
 	while (lcltoken != NULL)
 	{
-		printf("%s : %s\n", lcltoken->val, token_type_to_string(lcltoken->type));
+		printf("%s : %s\n", lcltoken->val, \
+			token_type_to_string(lcltoken->type));
 		lcltoken = lcltoken->next;
 	}
 	printf("----------------------------------\n");
 }
 
-void	print_redirs(t_cmd *rmtcmd)
+static void	print_redirs(t_cmd *rmtcmd)
 {
 	t_redir	*lclredir;
 
 	lclredir = rmtcmd->redir;
 	while (lclredir != NULL)
 	{
-		printf("(%s:%s) ", lclredir->filename, redir_type_to_string(lclredir->type));
+		printf("(%s:%s) ", lclredir->filename, \
+			redir_type_to_string(lclredir->type));
 		lclredir = lclredir->next;
 	}
 }
@@ -115,4 +99,14 @@ void	print_cmds(t_mini *mini)
 		printf("\n");
 	}
 	printf("----------------------------------\n");
+}
+
+void	print_status(void)
+{
+	if (g_status == 256)
+		printf("pipe error\n");
+	else if (g_status == 257)
+		printf("quote error\n");
+	else if (g_status == 258)
+		printf("redir error\n");
 }

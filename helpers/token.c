@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenUtilitiesTwo.c                                :+:      :+:    :+:   */
+/*   token_flow.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dias <dinursul@student.42.it>              +#+  +:+       +#+        */
+/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 13:49:12 by Dias              #+#    #+#             */
-/*   Updated: 2025/07/03 16:02:10 by Dias             ###   ########.fr       */
+/*   Created: 2025/07/09 18:45:53 by dias              #+#    #+#             */
+/*   Updated: 2025/07/10 16:42:58 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./mini.h"
+#include "../core/mini.h"
 
-void	shift_if_spr_were_first(char *start, char **line)
+int	nspr(char c)
+{
+	if (c == '\0')
+		return (1);
+	else if (c == ' ')
+		return (1);
+	else if (c == '|')
+		return (1);
+	else if (c == '>')
+		return (1);
+	else if (c == '<')
+		return (1);
+	return (0);
+}
+
+void	shift(char *start, char **line)
 {
 	if (start == *line && (**line) == '>')
 	{

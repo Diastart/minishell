@@ -1,0 +1,2 @@
+token_flow can return KO in case if there is string that does not have proper ending closing quote
+command_flow can return KO in case if there is null redirection
