@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:12:22 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 17:15:55 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/12 18:41:09 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ static int	make_token(t_mini *mini, char **line)
 	if (tailtoken->state == KO)
 		return (KO);
 	tailtoken->type = get_token_type(tailtoken->val);
+	if (tailtoken->type == TOKEN_WORD)
+		update(tailtoken, mini);
 	return (OK);
 }
 

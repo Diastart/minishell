@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:04:43 by dias              #+#    #+#             */
-/*   Updated: 2025/07/11 00:03:19 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/12 20:17:07 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC,
 }				t_redir_type;
+
+typedef struct s_last
+{
+	int		newline;
+	char	*delim;
+}				t_last;
 
 typedef struct s_redir
 {
@@ -103,5 +109,9 @@ void	print_cmds(t_mini *mini);
 void	print_status(void);
 void	free_flow(t_mini *mini, int env);
 void	routing_flow(t_mini *mini);
+void	update(t_token *lcltoken, t_mini *mini);
+void	skip_envchrs(char **line);
+char	*ft_strjoin(char *str1, char *str2);
+char	*ft_itoa(int status);
 
 #endif
