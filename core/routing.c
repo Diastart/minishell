@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:02:39 by dias              #+#    #+#             */
-/*   Updated: 2025/07/12 20:15:08 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/13 22:38:46 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,9 @@ static t_last	redirinout(t_cmd *lclcmd, t_last *lastredirs)
 	int		fd;
 	t_redir	*lclredir;
 
-	lastredirs->delim = NULL;
-	lastredirs->newline = OK;
 	lclredir = lclcmd->redir;
 	while (lclredir != NULL)
 	{
-		if (lclredir->filename != NULL)
-			lclredir->filename = lclredir->filename;
 		if (lclredir->type == REDIR_IN)
 		{
 			lastredirs->delim = NULL;
@@ -64,11 +60,12 @@ static t_last	redirinout(t_cmd *lclcmd, t_last *lastredirs)
 	}
 }
 
-
 static void	child(int pipefd[], int carry, t_cmd *lclcmd)
 {
 	t_last	lastredirs;
-	
+
+	lastredirs.delim = NULL;
+	lastredirs.newline = OK;
 	if (carry != TERMINAL)
 	{
 		dup2(carry, STDIN_FILENO);
