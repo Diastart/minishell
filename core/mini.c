@@ -6,7 +6,7 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:09:58 by dias              #+#    #+#             */
-/*   Updated: 2025/07/13 13:27:37 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/20 12:19:55 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int ac, char **av, char **glblenv)
 		ft_putstr("$dias_eugenio_shell");
 		if (under_flow(mini) == OK)
 			routing_flow(mini);
+		print_err();
 		free_flow(mini, NOENV);
 	}
 }

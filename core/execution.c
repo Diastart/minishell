@@ -6,13 +6,13 @@
 /*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:13:23 by dias              #+#    #+#             */
-/*   Updated: 2025/07/13 22:33:33 by dias             ###   ########.fr       */
+/*   Updated: 2025/07/20 12:41:39 by dias             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
 
-void	execution_flow(t_cmd *lclcmd, t_last *last)
+void	execution_flow(t_cmd *lclcmd, int nl)
 {
 	
 }
