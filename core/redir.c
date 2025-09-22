@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/mini.h"
-
-int	g_status;
+#include "mini.h"
 
 static t_redir_type	convert(t_token_type token_type)
 {
@@ -64,12 +62,19 @@ int	redir(t_token **rmttoken, t_cmd *lclcmd)
 	t_redir	*lclredir;
 
 	if ((*rmttoken)->next == NULL || (*rmttoken)->next->type != TOKEN_WORD)
-	{
-		g_status = 258;
 		return (KO);
-	}
 	lclredir = make_redir(lclcmd);
 	lclredir->type = convert((*rmttoken)->type);
-	lclredir->filename = ft_strdup((*rmttoken)->next->val);
+	lclredir->heredoc_fd = -1;
+	if ((*rmttoken)->type == TOKEN_REDIR_HEREDOC)
+	{
+		lclredir->heredoc_fd = handle_heredoc((*rmttoken)->next->val);
+		wait(NULL);
+		if (lclredir->heredoc_fd == -1)
+			return (KO);
+		lclredir->filename = ft_strdup((*rmttoken)->next->val);
+	}
+	else
+		lclredir->filename = ft_strdup((*rmttoken)->next->val);
 	return (OK);
 }

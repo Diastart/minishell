@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2024/12/12 13:40:19 by ebonacco          #+#    #+#             */
+/*   Updated: 2024/12/12 13:40:29 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../core/mini.h"
 
-size_t	ft_strlen(char *str)
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
-	size_t	len;
+	size_t	i;
 
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[len])
-		len++;
-	return (len);
+	i = 0;
+	if (size > 0)
+	{
+		while ((i < size - 1) && (src[i] != '\0'))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
 }

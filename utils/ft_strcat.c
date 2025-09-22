@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2025/09/06 20:24:42 by ebonacco          #+#    #+#             */
+/*   Updated: 2025/09/06 20:24:55 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/mini.h"
+#include <stddef.h>
 
-size_t	ft_strlen(char *str)
+char	*ft_strcat(char *dest, const char *src)
 {
-	size_t	len;
+	size_t	i;
+	size_t	j;
 
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[len])
-		len++;
-	return (len);
+	i = 0;
+	while (dest[i])
+		i++;
+	j = 0;
+	while (src[j])
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
 }

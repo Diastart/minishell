@@ -12,12 +12,12 @@
 
 #include "mini.h"
 
-int	g_status;
-
-static char	*expand(char **env, char *envstr)
+static char	*expand(t_mini *mini, char *envstr)
 {
 	char	*copy;
+	char	**env;
 
+	env = mini->env;
 	if (envstr == NULL)
 	{
 		free(envstr);
@@ -25,7 +25,8 @@ static char	*expand(char **env, char *envstr)
 	}
 	while (*env != NULL)
 	{
-		if (ft_strcmp(*env, envstr) == 61)
+		if (ft_strncmp(*env, envstr, ft_strlen(envstr)) == 0
+			&& (*env)[ft_strlen(envstr)] == '=')
 		{
 			copy = *env;
 			skip_until_quote(&copy, '=');
@@ -38,23 +39,28 @@ static char	*expand(char **env, char *envstr)
 	return (NULL);
 }
 
-static char	*dollar(char **env, char **val, char **start, char *res)
+static char	*dollar(t_mini *mini, char **val, char **start, char *res)
 {
-	res = ft_strjoin(res, ft_substrdup(*start, *val));
+	res = ft_strjoin_tmp(res, ft_substrdup(*start, *val), 1);
 	*start = ++(*val);
 	if (**val == '?')
 	{
-		res = ft_strjoin(res, ft_itoa(g_status));
+		res = ft_strjoin_tmp(res, ft_itoa(mini->exit_status), 1);
 		*start = ++(*val);
 		return (res);
 	}
+	if (**val == '\0' || **val == ' ' || **val == '"' || **val == '\''
+		|| (!ft_isalpha(**val) && **val != '_'))
+	{
+		return (ft_strjoin_tmp(res, ft_strdup("$"), 1));
+	}
 	skip_envchrs(val);
-	res = ft_strjoin(res, expand(env, ft_substrdup(*start, *val)));
+	res = ft_strjoin_tmp(res, expand(mini, ft_substrdup(*start, *val)), 1);
 	*start = *val;
 	return (res);
 }
 
-static char	*search(char **env, char *val)
+char	*search(t_mini *mini, char *val)
 {
 	char	*res;
 	char	*start;
@@ -66,14 +72,14 @@ static char	*search(char **env, char *val)
 	while (*val != '\0')
 	{
 		if (*val == '$')
-			res = dollar(env, &val, &start, res);
+			res = dollar(mini, &val, &start, res);
 		else
 			val++;
 	}
-	return (ft_strjoin(res, ft_substrdup(start, val)));
+	return (ft_strjoin_tmp(res, ft_substrdup(start, val), 1));
 }
 
-static char	*unquote(char **env, char *val)
+char	*unquote(t_mini *mini, char *val)
 {
 	char	*res;
 	char	*start;
@@ -86,27 +92,27 @@ static char	*unquote(char **env, char *val)
 		if (*val == '\'' || *val == '\"')
 		{
 			quote = *val;
-			res = ft_strjoin(res, search(env, ft_substrdup(start, val)));
+			res = join_search(mini, res, start, val);
 			start = ++val;
 			skip_until_quote(&val, quote);
 			if (quote == '\"')
-				res = ft_strjoin(res, search(env, ft_substrdup(start, val)));
+				res = join_search(mini, res, start, val);
 			else
-				res = ft_strjoin(res, ft_substrdup(start, val));
+				res = ft_strjoin_tmp(res, ft_substrdup(start, val), 1);
 			start = ++val;
 		}
 		else
 			val++;
 	}
-	res = ft_strjoin(res, search(env, ft_substrdup(start, val)));
-	return (res);
+	return (res = ft_strjoin_tmp(res,
+			search_free(mini, ft_substrdup(start, val)), 1));
 }
 
 void	update(t_token *lcltoken, t_mini *mini)
 {
 	char	*res;
 
-	res = unquote(mini->env, lcltoken->val);
+	res = unquote(mini, lcltoken->val);
 	free(lcltoken->val);
 	lcltoken->val = res;
 }

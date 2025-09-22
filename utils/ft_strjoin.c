@@ -18,25 +18,22 @@ char	*ft_strjoin(char *str1, char *str2)
 	int		i;
 	int		j;
 
+	i = 0;
+	j = 0;
 	if (str1 == NULL && str2 == NULL)
 		return (NULL);
+	if (str1 == NULL)
+		return (ft_strdup(str2));
+	if (str2 == NULL)
+		return (ft_strdup(str1));
 	str = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1));
-	if (str == NULL)
+	if (!str)
 		return (NULL);
-	i = 0;
-	if (str1 != NULL)
-	{
-		while (str1[j] != '\0')
-			str[i++] = str1[i++];
-	}
+	while (str1[j])
+		str[i++] = str1[j++];
 	j = 0;
-	if (str2 != NULL)
-	{
-		while (str2[j] != '\0')
-			str[i++] = str2[j++];
-	}
+	while (str2[j])
+		str[i++] = str2[j++];
 	str[i] = '\0';
-	free(str1);
-	free(str2);
 	return (str);
 }

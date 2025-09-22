@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_matrixlen.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2025/09/06 15:54:25 by ebonacco          #+#    #+#             */
+/*   Updated: 2025/09/06 15:54:53 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../core/mini.h"
 
-size_t	ft_strlen(char *str)
+int	ft_matrixlen(char **str)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	if (str == NULL)

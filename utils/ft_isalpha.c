@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2024/12/10 10:46:50 by ebonacco          #+#    #+#             */
+/*   Updated: 2024/12/10 12:54:39 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/mini.h"
-
-size_t	ft_strlen(char *str)
+int	ft_isalpha(int c)
 {
-	size_t	len;
-
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[len])
-		len++;
-	return (len);
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }

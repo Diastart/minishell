@@ -12,7 +12,7 @@
 
 #include "mini.h"
 
-int	g_status;
+volatile sig_atomic_t	g_status;
 
 static int	get_glblenvlen(char **glblenv)
 {
@@ -26,7 +26,7 @@ static int	get_glblenvlen(char **glblenv)
 	return (len);
 }
 
-static void	copy(t_mini *mini, char **glblenv)
+void	copy(t_mini *mini, char **glblenv)
 {
 	int		i;
 	int		len;
@@ -56,48 +56,26 @@ static t_mini	*create(void)
 	new_mini->env = NULL;
 	new_mini->token = NULL;
 	new_mini->cmd = NULL;
+	new_mini->exit_status = 0;
 	return (new_mini);
-}
-
-static int	under_flow(t_mini *mini)
-{
-	int		lclstate;
-	char	*line;
-
-	lclstate = OK;
-	line = readline("> ");
-	if (pipe_first(line) == KO)
-		return (KO);
-	if (token_flow(mini, line) == KO)
-		return (KO);
-	if (consec_pipes(mini) == KO)
-		return (KO);
-	if (pipe_last(mini) == OK)
-	{
-		lclstate = under_flow(mini);
-		return (lclstate);
-	}
-	print_tokens(mini);
-	if (command_flow(mini) == KO)
-		return (KO);
-	print_cmds(mini);
-	return (lclstate);
 }
 
 int	main(int ac, char **av, char **glblenv)
 {
-	t_mini	*mini;
+	t_mini				*mini;
 
 	(void)ac;
 	(void)av;
+	set_signals();
 	mini = create();
 	copy(mini, glblenv);
 	while (42)
 	{
-		ft_putstr("$dias_eugenio_shell");
 		if (under_flow(mini) == OK)
 			routing_flow(mini);
-		print_err();
 		free_flow(mini, NOENV);
 	}
+	free_flow(mini, ENV);
+	free(mini);
+	return (mini->exit_status);
 }

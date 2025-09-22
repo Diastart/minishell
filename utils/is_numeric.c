@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   is_numeric.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2025/09/08 11:20:20 by ebonacco          #+#    #+#             */
+/*   Updated: 2025/09/08 11:21:01 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../core/mini.h"
 
-size_t	ft_strlen(char *str)
+int	is_numeric(const char *str)
 {
-	size_t	len;
+	size_t	i;
 
-	len = 0;
-	if (str == NULL)
+	i = 0;
+	if (!str || !*str)
 		return (0);
-	while (str[len])
-		len++;
-	return (len);
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
 }

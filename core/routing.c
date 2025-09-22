@@ -12,138 +12,86 @@
 
 #include "mini.h"
 
-
-static int handle_heredoc(char *delimiter)
+void	child(int pipefd[2], int carry, t_cmd *cmd, t_mini *mini)
 {
-	int		pipefd[2];
-	char	*line;
-	pid_t	pid;
+	char	*cmd_path;
 
-	if (pipe(pipefd) == -1)
-		return -1;
-	pid = fork();
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		while (1)
-		{
-			write(STDOUT_FILENO, "> ", 2);
-			line = readline("");
-			if (!line || ft_strcmp(line, delimiter) == 0)
-			{
-				if (line) free(line);
-				break;
-			}
-			write(pipefd[1], line, ft_strlen(line));
-			write(pipefd[1], "\n", 1);
-			free(line);
-		}
-		
-		close(pipefd[1]);
-		exit(0);
-	}
-	else
-	{
-		close(pipefd[1]);
-		wait(NULL);
-		return pipefd[0];
-	}
-}
-
-static int	redirinout(t_cmd *lclcmd)
-{
-	int		fd;
-	int		nl;
-	t_redir	*lclredir;
-
-	nl = OK;
-	lclredir = lclcmd->redir;
-	while (lclredir != NULL)
-	{
-		if (lclredir->type == REDIR_IN)
-		{
-			fd = open(lclredir->filename, O_RDONLY, 0777);
-			if (fd == -1)
-				exit(259);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (lclredir->type == REDIR_HEREDOC)
-		{
-			fd = handle_heredoc(lclredir->filename);
-			if (fd == -1)
-				exit(259);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (lclredir->type == REDIR_OUT)
-		{
-			nl = OK;
-			fd = open(lclredir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-				exit(259);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (lclredir->type == REDIR_APPEND)
-		{
-			nl = KO;
-			fd = open(lclredir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-				exit(259);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		lclredir = lclredir->next;
-	}
-	return (nl);
-}
-
-static void	child(int pipefd[], int carry, t_cmd *lclcmd)
-{
-	if (carry != TERMINAL)
-	{
+	set_signals();
+	cmd_path = find_command_in_path(mini, cmd->args[0]);
+	redirinout(cmd);
+	if (!has_redir_in(cmd) && carry != TERMINAL)
 		dup2(carry, STDIN_FILENO);
-		close(carry);
-	}
-	if (lclcmd->next != NULL)
-	{
-		close(pipefd[READ_KEY]);
+	if (cmd->next && !has_redir_out(cmd))
 		dup2(pipefd[WRITE_KEY], STDOUT_FILENO);
+	if (cmd->next && pipefd[READ_KEY] != -1)
+		close(pipefd[READ_KEY]);
+	if (cmd->next && pipefd[WRITE_KEY] != -1)
 		close(pipefd[WRITE_KEY]);
-	}
-	execute_flow(lclcmd, redirinout(lclcmd));
+	if (carry != TERMINAL && carry != -1)
+		close(carry);
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(127);
+	if (is_builtin(cmd))
+		exit(trash(cmd, mini, cmd_path));
+	validate_and_exec_cmd(mini, cmd, cmd_path);
 }
 
-static void	parent(int pipefd[], int *carry, t_cmd *lclcmd)
+void	parent(int pipefd[2], int *carry, t_cmd *cmd)
 {
-	if (lclcmd->next != NULL)
+	if (cmd->next)
 		close(pipefd[WRITE_KEY]);
 	if (*carry != TERMINAL)
 		close(*carry);
-	if (lclcmd->next != NULL)
+	if (cmd->next)
 		*carry = pipefd[READ_KEY];
 	else
 		*carry = TERMINAL;
-	wait(NULL);
 }
 
-void	routing_flow(t_mini *mini)
+void	wait_children(t_mini *mini, pid_t last_pid, int carry)
+{
+	int		status;
+	pid_t	wpid;
+
+	wpid = waitpid(-1, &status, 0);
+	while (wpid > 0)
+	{
+		if (wpid == last_pid)
+		{
+			if (WIFSIGNALED(status))
+				mini->exit_status = 128 + WTERMSIG(status);
+			else if (WIFEXITED(status))
+				mini->exit_status = WEXITSTATUS(status);
+		}
+		wpid = waitpid(-1, &status, 0);
+	}
+	if (carry != TERMINAL)
+		close(carry);
+}
+
+int	routing_flow(t_mini *mini)
 {
 	t_cmd	*lclcmd;
-	pid_t	pid;
-	int		pipefd[2];
+	pid_t	last_pid;
 	int		carry;
 
+	last_pid = -1;
 	carry = TERMINAL;
 	lclcmd = mini->cmd;
+	if (is_builtin(lclcmd) && lclcmd->next == NULL)
+		return (mini->exit_status = exec_single_builtin(mini, lclcmd));
 	while (lclcmd != NULL)
 	{
-		if (lclcmd->next != NULL)
-			pipe(pipefd);
-		if (fork() == 0)
-			child(pipefd, carry, lclcmd);
-		parent(pipefd, &carry, lclcmd);
+		if (!lclcmd->args || !lclcmd->args[0])
+		{
+			mini->exit_status = 0;
+			lclcmd = lclcmd->next;
+			continue ;
+		}
+		if (exec_command(mini, lclcmd, &carry, &last_pid) != 0)
+			return (1);
 		lclcmd = lclcmd->next;
 	}
+	wait_children(mini, last_pid, carry);
+	return (mini->exit_status);
 }

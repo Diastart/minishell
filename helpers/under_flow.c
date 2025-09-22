@@ -12,14 +12,13 @@
 
 #include "../core/mini.h"
 
-int	g_status;
-
 int	pipe_first(char *line)
 {
 	skip_whitespaces(&line);
 	if (*line != '\0' && *line == '|')
 	{
-		g_status = 256;
+		ft_putstr_fd(BASH_ERROR "syntax error near unexpected token `|\'\n",
+			STDERR_FILENO);
 		return (KO);
 	}
 	return (OK);
@@ -32,10 +31,11 @@ int	consec_pipes(t_mini *mini)
 	lcltoken = mini->token;
 	while (lcltoken != NULL)
 	{
-		if (lcltoken->type == TOKEN_PIPE && lcltoken->next != NULL \
+		if (lcltoken->type == TOKEN_PIPE && lcltoken->next != NULL
 			&& lcltoken->next->type == TOKEN_PIPE)
 		{
-			g_status = 256;
+			ft_putstr_fd(BASH_ERROR "syntax error near unexpected token `|\'\n",
+				STDERR_FILENO);
 			return (KO);
 		}
 		lcltoken = lcltoken->next;

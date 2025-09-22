@@ -64,7 +64,7 @@ static void	free_cmds(t_cmd *cmd)
 	}
 }
 
-static void	free_env(char **env)
+void	free_env(char **env)
 {
 	int	i;
 
@@ -81,8 +81,6 @@ static void	free_env(char **env)
 
 void	free_flow(t_mini *mini, int env)
 {
-	if (g_status != 0)
-		print_status();
 	if (!mini)
 		return ;
 	free_tokens(mini->token);
@@ -93,6 +91,5 @@ void	free_flow(t_mini *mini, int env)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		free(mini);
 	}
 }

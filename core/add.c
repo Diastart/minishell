@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/mini.h"
+#include "mini.h"
 
 static char	**create(int len)
 {

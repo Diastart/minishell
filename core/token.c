@@ -12,8 +12,6 @@
 
 #include "mini.h"
 
-int	g_status;
-
 static t_token_type	get_token_type(char *token_val)
 {
 	if (ft_strcmp(token_val, "|") == 0)
@@ -44,7 +42,6 @@ static char	*get_token_val(char **line, t_token *lcltoken)
 			skip_until_quote(line, quote);
 			if (**line == '\0')
 			{
-				g_status = 257;
 				lcltoken->state = KO;
 				return (NULL);
 			}
@@ -95,7 +92,7 @@ static int	make_token(t_mini *mini, char **line)
 
 int	token_flow(t_mini *mini, char *line)
 {
-	if (line == NULL)
+	if (line == NULL || *line == '\0')
 		return (KO);
 	while (*line != '\0')
 	{

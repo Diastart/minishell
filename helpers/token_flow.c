@@ -46,3 +46,30 @@ void	shift(char *start, char **line)
 	else if (start == *line && (**line) == '|')
 		*line += 1;
 }
+
+char	*ft_strjoin_tmp(char *res, char *tmp, int free_res)
+{
+	char	*new;
+
+	new = ft_strjoin(res, tmp);
+	if (tmp)
+		free(tmp);
+	if (free_res && res)
+		free(res);
+	return (new);
+}
+
+char	*search_free(t_mini *mini, char *tmp)
+{
+	char	*res;
+
+	res = search(mini, tmp);
+	free(tmp);
+	return (res);
+}
+
+char	*join_search(t_mini *mini, char *res, char *start, char *end)
+{
+	return (ft_strjoin_tmp(res,
+			search_free(mini, ft_substrdup(start, end)), 1));
+}

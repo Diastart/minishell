@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2025/09/06 15:48:18 by ebonacco          #+#    #+#             */
+/*   Updated: 2025/09/06 15:49:18 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../core/mini.h"
 
-size_t	ft_strlen(char *str)
+void	ft_putstr_fd(char *str, int fd)
 {
-	size_t	len;
-
-	len = 0;
 	if (str == NULL)
-		return (0);
-	while (str[len])
-		len++;
-	return (len);
+		return ;
+	while (*str)
+		write(fd, str++, 1);
 }

@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dias <dias@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ebonacco <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:20:42 by dias              #+#    #+#             */
-/*   Updated: 2025/07/10 16:41:21 by dias             ###   ########.fr       */
+/*   Created: 2025/09/08 11:19:05 by ebonacco          #+#    #+#             */
+/*   Updated: 2025/09/08 11:19:39 by ebonacco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../core/mini.h"
 
-size_t	ft_strlen(char *str)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	len;
-
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[len])
-		len++;
-	return (len);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (NULL);
 }
